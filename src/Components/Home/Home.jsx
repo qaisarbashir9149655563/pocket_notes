@@ -1,6 +1,6 @@
-import LeftSidePannel from "../LeftSidePannel/LeftSidePannel";
-import RightSidePannel from "../RightSidePannel/RightSidePannel";
-import StyleHomeMainPage from "./HomePage.module.css";
+import LeftPannel from "../LeftPannel/LeftPannel";
+import RightPannel from "../RightPannel/RightPannel";
+import StyleHome from "./Home.module.css";
 import React, { useState} from "react";
 import "react-responsive-modal/styles.css";
 import { Modal } from "react-responsive-modal";
@@ -8,14 +8,22 @@ import Notes from "../Notes/Notes";
 
 
 
-const HomeMainPage = () => {
+const Home = () => {
   const [open, setOpen] = React.useState(false);
-  const [colorChoice, setColorChoice] = React.useState(false);
   const [isVisible, setIsVisible] = useState(true);
+  const [colorChoice, setColorChoice] = React.useState(false);
   const [colorgroupChoice,setColorgroupChoice]=useState(false);
+  const [userIdClicked,setUserIdClicked] = useState(0);
 
-  
-const [userIdClicked,setUserIdClicked] = useState(0);
+  const COLORS = {
+    color1: "#B38BFA",
+    color2: "#FF79F2", 
+    color3: "#43E6FC",
+    color4: "#F19576",
+    color5: "#0047FF",
+    color6: "#6691FF"
+  };
+
 
 const handleUserIdClicked = IDnum => {
   setUserIdClicked(IDnum);
@@ -56,42 +64,17 @@ const handleUserIdClicked = IDnum => {
   };
 
 
-  const funColor1 = () => {
-    setCreateGroup({ ...createGroup, color: "#B38BFA" });
-    setColorChoice(true);
-  };
-
-  const funColor2 = () => {
-    setCreateGroup({ ...createGroup, color: "#FF79F2" });
-    setColorChoice(true);
-  };
-
-  const funColor3 = () => {
-    setCreateGroup({ ...createGroup, color: "#43E6FC" });
-    setColorChoice(true);
-  };
-
-  const funColor4 = () => {
-    setCreateGroup({ ...createGroup, color: "#F19576" });
-    setColorChoice(true);
-  };
-
-  const funColor5 = () => {
-    setCreateGroup({ ...createGroup, color: "#0047FF" });
-    setColorChoice(true);
-  };
-
-  const funColor6 = () => {
-    setCreateGroup({ ...createGroup, color: "#6691FF" });
+  const handleColorSelect = (color) => {
+    setCreateGroup({ ...createGroup, color });
     setColorChoice(true);
   };
 
   return (
     <>
-  <div className={StyleHomeMainPage.homeMainPage}>
+  <div className={StyleHome.homeContainer}>
         {submitCheck() ? (
-          <div className={StyleHomeMainPage.hideWhenMobile}>
-          <LeftSidePannel
+          <div className={StyleHome.mobileHidden}>
+          <LeftPannel
             handleClick={handleClick}
             handleUserIdClicked={handleUserIdClicked}
             id={id}
@@ -101,24 +84,24 @@ const handleUserIdClicked = IDnum => {
           />
           </div>
         ) : (
-          <div className={StyleHomeMainPage.hideWhenMobile}>
-          <LeftSidePannel handleClick={handleClick}handleUserIdClicked={handleUserIdClicked} />
+          <div className={StyleHome.mobileHidden}>
+          <LeftPannel handleClick={handleClick}handleUserIdClicked={handleUserIdClicked} />
           </div>
         )}
         {
           (userIdClicked>0) ? (
-            <div className={StyleHomeMainPage.hideWhenMobile}>
+            <div className={StyleHome.mobileHidden}>
             <Notes userIdClicked={userIdClicked} colorgroupChoice={colorChoice}/>
             </div>
           ):(
-            <div className={StyleHomeMainPage.hideWhenMobile}>
-            <RightSidePannel />
+            <div className={StyleHome.mobileHidden}>
+            <RightPannel />
           </div>
           )
         }
        { submitCheck() && isVisible ? (
-        <div className={StyleHomeMainPage.hideWhenPc}>
-          <LeftSidePannel
+        <div className={StyleHome.desktopHidden}>
+          <LeftPannel
             handleClick={handleClick}
             handleUserIdClicked={handleUserIdClicked}
             id={id}
@@ -130,8 +113,8 @@ const handleUserIdClicked = IDnum => {
           </div>
         ) : (
           (isVisible) ?(
-          <div className={StyleHomeMainPage.hideWhenPc} onClick={()=>setIsVisible(false)}>
-          <LeftSidePannel handleClick={handleClick} handleUserIdClicked={handleUserIdClicked}/>
+          <div className={StyleHome.desktopHidden} onClick={()=>setIsVisible(false)}>
+          <LeftPannel handleClick={handleClick} handleUserIdClicked={handleUserIdClicked}/>
           {console.log(isVisible)}
           </div>
           )
@@ -140,13 +123,13 @@ const handleUserIdClicked = IDnum => {
         }
         {
           (userIdClicked>0) ? (
-            <div className={StyleHomeMainPage.hideWhenPc}>
+            <div className={StyleHome.desktopHidden}>
             <Notes userIdClicked={userIdClicked}/>
             </div>
           ):(
             open > 0 && (
-              <div className={StyleHomeMainPage.hideWhenPc}>
-                <LeftSidePannel
+              <div className={StyleHome.desktopHidden}>
+                <LeftPannel
                   handleClick={handleClick}
                   handleUserIdClicked={handleUserIdClicked}
                   id={id}
@@ -167,16 +150,16 @@ const handleUserIdClicked = IDnum => {
         center={true}
         showCloseIcon={false}
       >
-        <h2 className={StyleHomeMainPage.Text1}>Create New Notes group</h2>
+        <h2 className={StyleHome.heading}>Create New Notes group</h2>
         <form action="">
           <p>
             <label htmlFor="GroupName">
-              <span className={StyleHomeMainPage.Text2}> Group Name</span>
+              <span className={StyleHome.subheading}> Group Name</span>
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
               <input
                 type="text"
                 placeholder="   Enter your group name...."
-                className={StyleHomeMainPage.placeHold}
+                className={StyleHome.placeHold}
                 onChange={(e) => handleNotesChange(e)}
               />
               {colorgroupChoice === false && groupName === "" ? (
@@ -184,46 +167,19 @@ const handleUserIdClicked = IDnum => {
           ) : null}
             </label>
           </p>
-          <p className={StyleHomeMainPage.Choosecolour}>
+          <p className={StyleHome.Choosecolour}>
             <label htmlFor="Choosecolour">
-              <span className={StyleHomeMainPage.Text2}>Choose colour</span>
-              <span className="StyleHomeMainPage.ChoosecolourBreak">
+              <span className={StyleHome.subheading}>Choose colour</span>
+              <span className="StyleHome.ChoosecolourBreak">
                 &nbsp;&nbsp;
-                <button
-                  type="button"
-                  className={StyleHomeMainPage.colorButton1}
-                  onClick={funColor1}
-                ></button>
-                &nbsp;&nbsp;
-                <button
-                  type="button"
-                  className={StyleHomeMainPage.colorButton2}
-                  onClick={funColor2}
-                ></button>
-                &nbsp;&nbsp;
-                <button
-                  type="button"
-                  className={StyleHomeMainPage.colorButton3}
-                  onClick={funColor3}
-                ></button>
-                &nbsp;&nbsp;
-                <button
-                  type="button"
-                  className={StyleHomeMainPage.colorButton4}
-                  onClick={funColor4}
-                ></button>
-                &nbsp;&nbsp;
-                <button
-                  type="button"
-                  className={StyleHomeMainPage.colorButton5}
-                  onClick={funColor5}
-                ></button>
-                &nbsp;&nbsp;
-                <button
-                  type="button"
-                  className={StyleHomeMainPage.colorButton6}
-                  onClick={funColor6}
-                ></button>
+                {Object.values(COLORS).map((color, index) => (
+                  <button
+                    key={`color-${index + 1}`}
+                    type="button"
+                    className={StyleHome[`colorButton${index + 1}`]}
+                    onClick={() => handleColorSelect(color)}
+                  ></button>
+                ))}
                 &nbsp;&nbsp;
               </span>
             </label>
@@ -234,7 +190,7 @@ const handleUserIdClicked = IDnum => {
           <input
             type="submit"
             value="Create"
-            className={StyleHomeMainPage.create}
+            className={StyleHome.create}
             onClick={handleSubmit}
           />
         </form>
@@ -243,4 +199,6 @@ const handleUserIdClicked = IDnum => {
   );
 };
 
-export default HomeMainPage;
+export default Home;
+
+

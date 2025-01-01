@@ -1,15 +1,15 @@
-.homeMainPage {
+.homeContainer {
   display: flex;
 }
 
-@media (max-width: 600px) {
-  .hideWhenMobile {
+@media (min-width: 600px) {
+  .desktopHidden{
     display: none;
   }
 }
 
-@media (min-width: 600px) {
-  .hideWhenPc{
+@media (max-width: 600px) {
+  .mobileHidden {
     display: none;
   }
 }
@@ -68,7 +68,6 @@
 
 .Choosecolour {
   display: flex;
-  justify-content: center;
   justify-items: center;
   flex-wrap: wrap;
 }
@@ -111,6 +110,7 @@
   background: #fff;
   height: 27px;
   width: 211px;
+  padding: 5px 0px 5px 10px;
 }
 
 .placeHold::placeholder {
@@ -118,7 +118,7 @@
   left: 11px;
 }
 
-.Text1 {
+.heading {
   color: #000;
   font-family: Roboto;
   font-size: 1.8125rem;
@@ -128,7 +128,7 @@
   letter-spacing: 0.06344rem;
 }
 
-.Text2 {
+.subheading {
   color: #000;
   font-family: Roboto;
   font-size: 1.70713rem;

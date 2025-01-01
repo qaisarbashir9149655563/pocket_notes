@@ -1,29 +1,18 @@
 import NotesGroup from "../NotesGroup/NotesGroup";
-import StylesLeftSidePannel from "./LeftSidePannel.module.css";
+import StyleLeft from "./LeftPannel.module.css";
 import React, { useState, useEffect } from "react";
 
-const LeftSidePannel = ({ handleClick,handleUserIdClicked, id, groupName, color, create }) => {
+const LeftPannel = ({ handleClick,handleUserIdClicked, id, groupName, color, create }) => {
   const [clickedButton, setClickedButton] = useState(null);
-  
   const storedDataString = localStorage.getItem("groupNamesData");
   const storedData = JSON.parse(storedDataString) || [];
   const newId =
     storedData.length > 0 ? storedData[storedData.length - 1].id + 1 : 1;
-
   const newData = {
     id: newId,
     groupName: groupName,
     color: color,
     create: create,
-  };
-  
-
-  const submitCheck = () => {
-    if (groupName !== "" && create === true) {
-      return true;
-    } else {
-      return false;
-    }
   };
 
   useEffect(() => {
@@ -32,6 +21,14 @@ const LeftSidePannel = ({ handleClick,handleUserIdClicked, id, groupName, color,
       localStorage.setItem("groupNamesData", JSON.stringify(storedData));
     }
   }, [groupName, create, newData]);
+  
+  const submitCheck = () => {
+    if (groupName !== "" && create === true) {
+      return true;
+    } else {
+      return false;
+    }
+  };
 
 
   const handleButtonClick = (buttonId) => {
@@ -51,11 +48,11 @@ const LeftSidePannel = ({ handleClick,handleUserIdClicked, id, groupName, color,
   };
 
   return (
-    <div className={StylesLeftSidePannel.leftSidePannel}>
+    <div className={StyleLeft.leftSidePannel}>
       <h1>Pocket Notes</h1>
-      <div className={StylesLeftSidePannel.center}>
+      <div className={StyleLeft.center}>
         <button
-          className={StylesLeftSidePannel.createNotesGroup}
+          className={StyleLeft.createNotesGroup}
           onClick={() => handleClick(true)}
         > 
           {" "}
@@ -72,10 +69,10 @@ const LeftSidePannel = ({ handleClick,handleUserIdClicked, id, groupName, color,
           >
             {storedData.map((group) =>
               group.create ? (
-                <div className={StylesLeftSidePannel.notesGroupSlected}>
+                <div className={StyleLeft.notesGroupSlected}>
                   
                   <span
-                    className={StylesLeftSidePannel.act}
+                    className={StyleLeft.act}
                     style={buttonStyle(group.id)}
                     onClick={(_) => {
                       handleUserIdClicked(group.id);
@@ -99,4 +96,4 @@ const LeftSidePannel = ({ handleClick,handleUserIdClicked, id, groupName, color,
   );
 };
 
-export default LeftSidePannel;
+export default LeftPannel;
